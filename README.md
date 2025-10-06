@@ -10,13 +10,13 @@ This repository contains all the materials for Homework Assignment 1 of the cour
 
 For this assignment, I explore an environmental justice topic and create two thematic maps that communicate patterns of inequality. The project focuses on analyzing air toxics cancer risk and proximity to hazardous sites in relation to low-income communities in California.
 
-## Repository Structure
-EDS223-HW1
-│   README.md
-│   ej_screen.qmd
-|   ej_screen.pdf    
-└───data
-     └───ejscreen
+## Repository Content
+
+The Project directory contains:
+- README.md
+- ej_screen.pdf    
+- ej_screen.qmd 
+- data/ejscreen (Raw data)
 
 ## Data Access
 
