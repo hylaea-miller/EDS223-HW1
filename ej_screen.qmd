@@ -1,7 +1,7 @@
 ---
 title: "Exploring environmental (in)justice in the State of California"
 author: Hylaea Miller
-Date: "2025-10-06"
+date: "2025-10-06"
 format: pdf
 execute:
   warning: false
