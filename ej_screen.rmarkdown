@@ -1,0 +1,121 @@
+---
+title: "EDS 223 Homework Assignment 1"
+format: pdf
+execute:
+  warning: false
+  message: false
+---
+
+## Background
+
+This assignment is part of the course EDS 223: Geospatial Analysis & Remote Sensing, which aims to explore an environmental justice topic and create two maps that communicate an environmental justice issue. 
+
+In my case, I want to explore injustices related to low income and health. So, I'm going to use the variables National Scale Air Toxics Assessment Air Toxics Cancer Risk (cancer) and Proximity to Treatment, Storage, and Disposal Facilities (PTSDF) to identify how these variables affect low-income communities in California counties.
+
+## Data
+
+The data are available through the U.S. Environmental Protection Agency. You can find it here: [Ejscreen](https://pedp-ejscreen.azurewebsites.net/)
+
+### Packages used on this assignment
+
+```{r}
+# Load libraries 
+library(sf)
+library(here)
+library(dplyr)
+library(tmap)
+library(janitor)
+```
+### Import data
+1. Import the  EJScreen: Environmental Justice Screening and Mapping Tool data, clean and filter the variables of interest
+
+```{r}
+# read in geodatabase of EJScreen data at the Census Block Group level
+ejscreen <- sf::st_read(here::here("data", "EJSCREEN_2023_BG_StatePct_with_AS_CNMI_GU_VI.gdb")) %>%
+  clean_names()  
+
+# filter to a state you are interested in
+california <- ejscreen %>%
+  dplyr::filter(st_abbrev == "CA")
+```
+
+### Create subset with statistics
+2. Aggregate the state of California by county and calculate the mean for each variable
+
+```{r}
+# Find the average values for all variables within counties
+california_counties <- aggregate(california, by = list(california$cnty_name), FUN = mean)
+```
+
+
+
+## Visualize Data
+3. Use tmap to plot the chart Low-Income Population and Air Toxics Cancer Risk.
+
+```{r}
+# Plot the data using tmap
+tm_shape(california_counties) +
+  tm_polygons("lowincome",
+              palette = "orange",
+              title = "Low-income Population (%)") +
+  tm_symbols(size = "cancer",
+             col = "blue",
+             title.size = "Air Toxics Cancer Risk
+(Risk per million people)",
+             alpha = 0.4,
+             ) +
+    tm_title("Low-Income Population and Air Toxics Cancer Risk", size = 0.9) +
+  tm_graticules() +
+  tm_scalebar(position = c("right", "top")) +
+  tm_compass(position = c("right", "bottom")) +
+  tm_layout(inner.margins = c(0.02, 0.02, 0.02, 0.3))
+  
+```
+
+4. Use tmap to plot the chart Hazardous Sites and Low-Income population.
+
+```{r}
+tm_shape(california_counties) +
+  tm_polygons("lowincome",
+              palette = "orange",
+              title = "Low-Income Population (%)") +
+    tm_symbols(size = "ptsdf",
+             col = "purple",
+             title.size = "Hazardous Waste - TSDF             
+(count/km distance)",
+             alpha = 0.6,) +
+    tm_title("Hazardous Sites and Low-Income Population",
+             size = 0.9) +
+  tm_graticules() +
+  tm_scalebar(position = c("right", "top")) +
+  tm_compass(position = c("right", "bottom")) +
+  tm_layout(inner.margins = c(0.02, 0.02, 0.02, 0.3))
+
+```
+
+## Maps Interpretation
+
+The top figure, "Low-Income Communities and Air Toxics Cancer Risk," represents California counties by low-income population levels (orange gradient). Purple circles represent cancer risk from air toxics, with circle size scaled to risk level.
+
+It is observed that there are higher concentrations of low-income communities in the Central Valley and Southern California, with some overlap between high cancer risk and high low-income populations. This suggests possible environmental justice concerns.
+
+The second figure, "Hazardous Sites and Low-Income Communities," analyzes hazardous waste TSDF sites in relation to low-income communities, separated by county. The purple circles represent hazardous waste TSDF sites (Treatment, Storage, and Disposal Facilities).
+
+There is some overlap between areas with high low-income populations and locations of hazardous waste sites, highlighting potential disproportionate exposure for vulnerable groups. However, further analyses are still necessary to draw definitive conclusions.
+
+### Further analysis steps could include:
+
+- Statistical correlation/association tests.
+
+- Zooming in further to measure distances between hazardous sites and low-income communities.
+
+- Comparing exposure levels between low-income and high-income areas.
+
+## Data Citations
+
+EJScreen. Azurewebsites.net. https://pedp-ejscreen.azurewebsites.net/
+
+US EPA,OECA. Environmental Justice Indexes in EJSCREEN | US EPA. https://19january2021snapshot.epa.gov/ejscreen/environmental-justice-indexes-ejscreen_.html
+
+EJSCREEN Fact Sheet. https://www.epa.gov/sites/default/files/2016-07/documents/ejscreen_fact_sheet.pdf
+

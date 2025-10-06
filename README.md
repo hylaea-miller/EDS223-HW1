@@ -17,6 +17,7 @@ The Project directory contains:
 - ej_screen.pdf    
 - ej_screen.qmd 
 - data/ejscreen (Raw data)
+- Rmd/install.packages.R
 
 ## Data Access
 
