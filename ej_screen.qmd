@@ -71,12 +71,15 @@ tm_shape(california_counties) +
 (Risk per million people)",
              alpha = 0.4,
              ) +
-    tm_title("Average of Low-Income Population and Air Toxics Cancer Risk in California",
-             size = 1) +
+    tm_title(text = 
+  "Average of Low-Income Population and Air Toxics Cancer Risk in California", 
+  fontface = "bold", size = 0.6) +
   tm_graticules() +
   tm_scalebar(position = c("right", "top")) +
   tm_compass(position = c("right", "bottom")) +
-  tm_layout(inner.margins = c(0.02, 0.02, 0.02, 0.3))
+  tm_layout(inner.margins = c(0.02, 0.02, 0.02, 0.3),
+            component.autoscale = FALSE)
+
   
 ```
 
@@ -92,23 +95,25 @@ tm_shape(california_counties) +
              col = "purple",
              title.size = "Hazardous Waste - TSDF             
 (count/km distance)",
-             alpha = 0.6,) +
-    tm_title("Average of Hazardous Sites and Low-Income Population in California",
-             size = 1) +
+             alpha = 0.6) +
+    tm_title(text = 
+  "Average of Hazardous Sites and Low-Income Population in California",
+  fontface = "bold", size = 0.6) +
   tm_graticules() +
   tm_scalebar(position = c("right", "top")) +
   tm_compass(position = c("right", "bottom")) +
-  tm_layout(inner.margins = c(0.02, 0.02, 0.02, 0.3))
+  tm_layout(inner.margins = c(0.02, 0.02, 0.02, 0.3),
+            component.autoscale = FALSE)
 
 ```
 
 ## Maps Interpretation
 
-The **Figure 1**, "Average of Low-Income Communities and Air Toxics Cancer Risk," represents California counties by low-income population percentage levels (orange gradient). Purple circles represent cancer risk from air toxics, with circle size scaled to the risk per million people.
+The **Figure 1**, "Average of Low-Income Population and Air Toxics Cancer Risk in California", represents California counties by low-income population percentage levels (orange gradient). Purple circles represent cancer risk from air toxics, with circle size scaled to the risk per million people.
 
 It is observed that there are higher concentrations of low-income populations in Central and Northern California, with some overlap between high cancer risk and high low-income populations in these areas, suggesting possible environmental justice concerns.
 
-The **Figure 2**, "Average of Hazardous Sites and Low-Income Communities," analyzes hazardous waste TSDF sites in relation to low-income communities, separated by county. The purple circles represent hazardous waste TSDF sites (Treatment, Storage, and Disposal Facilities).
+The **Figure 2**, "Average of Hazardous Sites and Low-Income Population in California" analyzes hazardous waste TSDF sites in relation to low-income communities, separated by county. The purple circles represent hazardous waste TSDF sites (Treatment, Storage, and Disposal Facilities).
 
 There is some overlap between areas with high low-income populations and the locations of hazardous waste sites, highlighting potential disproportionate exposure for vulnerable groups, mostly in the central area of California. However, further analyses are still necessary to draw definitive conclusions.
 
